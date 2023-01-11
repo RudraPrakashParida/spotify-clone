@@ -1,0 +1,46 @@
+//const secret = "thisisourlittlesecret.";
+//userSchema.plugin(encrypt, {secret:secret , encryptedFields:["password"]});
+
+app.post("/register", function(req, res){
+   
+    const newUser = new User({
+      email:req.body.username,
+      password:md5(req.body.password)
+    });
+  
+     newUser.save(function(err){
+      if(err){
+        console.log(err);
+      }else{
+        res.render("secrets");
+      }
+     });
+  });
+  
+  app.post("/login", function(req, res){
+     const username = req.body.username;
+     const password = md5(req.body.password);
+  
+     User.findOne({email: username}, function(err, foundUser){
+       if(err){
+        console.log(err);
+       }else{
+        if(foundUser){
+          if(foundUser.password === password){
+            res.render("secrets");
+          }
+        }
+       }
+     });
+  });
+
+  <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+            <i class="fab fa-google"></i>
+            Sign In with Google
+          </a>
+        </div>
+      </div>
+    </div>
